@@ -40,23 +40,27 @@ public class gfg_special_matrix{
         
         
         int[][]dir={{1,0},{0,1}};
-        String[]dirS={"d","r"};
+        // String[]dirS={"d","r"};
 
         if(arr[0][0]==-1 || arr[n-1][m-1]==-1) return 0;
-        return myFindWays(arr,0,0,dir);
+        return myFindWays(arr,0,0,dir);//,dirS,""
+
     }
 
-    public static int myFindWays(int[][]arr,int sr, int sc, int[][]dir){
-        System.out.println("line1 "+sr+" "+sc);
-        if(sr==arr.length-1 && sc==arr[0].length-1) return 1;
+    public static int myFindWays(int[][]arr,int sr, int sc, int[][]dir){//,String[]dirS,String ans
+        // System.out.println("line1 "+sr+" "+sc);
+        if(sr==arr.length-1 && sc==arr[0].length-1){
+            // System.out.println(ans);
+            return 1;
+        }
         else{
             arr[sr][sc]=-1;
             int count=0;
             for(int d=0; d<dir.length; d++){
                 int r=sr+dir[d][0], c=sc+dir[d][1];
-                System.out.println("line2 "+r+" "+c);
+                // System.out.println("line2 "+r+" "+c);
                 if(0<=r && 0<=c && r<arr.length && c<arr[0].length && arr[r][c]==0)
-                count+=myFindWays(arr,r,c,dir);
+                count+=myFindWays(arr,r,c,dir);//,dirS,ans+dirS[d]
             }
             arr[sr][sc]=0;
             return count;

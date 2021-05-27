@@ -17,7 +17,9 @@ public class gfg_rat_maze_1{
         // Your code here
         int[][]dir={{-1,0},{1,0},{0,-1},{0,1}};
         String[]dirS={"U","D","L","R"};
-        return myFindPath(m,0,0,dir,dirS);
+        ArrayList<String>ans= myFindPath(m,0,0,dir,dirS);
+        Collections.sort(ans);
+        return ans;
     }
     public static ArrayList<String>myFindPath(int[][]m,int sr,int sc,int[][]dir,String[]dirS){
         System.out.println("calling: "+sr+" "+sc);
