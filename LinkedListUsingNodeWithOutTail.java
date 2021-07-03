@@ -1,4 +1,4 @@
-public class linkedlist {
+public class LinkedListUsingNodeWithOutTail{
     private class Node {
         int data = 0;
         Node next=null;
@@ -7,7 +7,6 @@ public class linkedlist {
         }
     }
     private Node head = null;
-    private Node tail = null;
     private int size = 0;
     @Override
     public String toString() {
@@ -34,9 +33,6 @@ public class linkedlist {
     private void addFirstNode(Node node) {
         node.next = this.head;
         this.head = node;
-        if(this.size == 0){
-            this.tail = node;
-        }
         this.size++;
     }
     public void addFirst(int data){
@@ -48,9 +44,12 @@ public class linkedlist {
             this.head=node;
         }
         else{
-            this.tail.next=node;
+            Node cur=this.head;
+            while(cur.next!=null){
+                cur=cur.next;
+            }
+            cur.next=node;
         }
-        this.tail=node;
         this.size++;
     }
     public void addLast(int data){
@@ -82,10 +81,7 @@ public class linkedlist {
     private Node removeFirstNode(){
         Node firstNode=this.head;
         this.head=firstNode.next;
-        if(this.size==1){
-            this.tail=null;
-        }
-        else{
+        if(firstNode.next!=null){
             firstNode.next=null;
         }
         this.size--;
@@ -99,17 +95,19 @@ public class linkedlist {
         return firstNode.data;
     }
     private Node removeLastNode(){
-        Node lastNode=this.tail;
         if(this.size==1){
-            this.head=this.tail=null;
+            Node lastNode=this.head;
+            this.head=null;
+            this.size--;
+            return lastNode;
         }
         else{
             Node prevLastNode=this.getNodeAt(this.size-2);
+            Node lastNode=prevLastNode.next;
             prevLastNode.next=null;
-            this.tail=prevLastNode;
+            this.size--;
+            return lastNode;
         }
-        this.size--;
-        return lastNode;
     }
     
     public int removeLast(){
@@ -155,7 +153,11 @@ public class linkedlist {
         return firstNode.data;
     }
     private Node getLastNode(){
-        Node lastNode=this.tail;
+        Node cur=this.head;
+        while(cur.next!=null){
+            cur=cur.next;
+        }
+        Node lastNode=cur;
         return lastNode;
     }
 
@@ -189,15 +191,3 @@ public class linkedlist {
 
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
