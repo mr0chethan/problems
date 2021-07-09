@@ -11,8 +11,6 @@ public class client{
         // LinkedList<Integer> ll=new LinkedList();
         // ListNode ll=new ListNode();
 
-    
-
         // System.out.println(ll.size());
         // System.out.println(ll.isEmpty());
         // System.out.println(ll);
@@ -101,8 +99,6 @@ public class client{
         // stk.push(34);
         // System.out.println(stk);
 
-    
-
         // QueueUsingArray q=new QueueUsingArray();
         // QueueUsingNode q=new QueueUsingNode();
         // QueueUsingLinkedList q=new QueueUsingLinkedList();
@@ -163,7 +159,6 @@ public class client{
         // ds.push(40);
         // ds.push(50);
         // ds.push(60);
-
 
         // System.out.println(ds.top());
         // System.out.println(ds.pop());
@@ -297,16 +292,18 @@ public class client{
         // System.out.println(hashMap.containsKey("India"));
         // System.out.println(hashMap.containsKey("America"));
 
-        Graph graph=new Graph(8);
+        Graph graph=new Graph(7);
         graph.addUndirectedEdge(0,1,10);
-        graph.addUndirectedEdge(0,3,10);
+        graph.addUndirectedEdge(0,3,40);
         graph.addUndirectedEdge(1,2,10);
-        graph.addUndirectedEdge(2,3,40);
+        graph.addUndirectedEdge(2,3,10);
+        graph.addUndirectedEdge(2,5,5);
         graph.addUndirectedEdge(3,4,2);
-        graph.addUndirectedEdge(4,5,2);
+        graph.addUndirectedEdge(4,5,3);
         graph.addUndirectedEdge(4,6,8);
         graph.addUndirectedEdge(5,6,3);
-        graph.addDirectedEdge(5,7,50);
+        
+        // graph.addDirectedEdge(5,7,50);
         // graph.addDirectedEdge(4,3,1);
         // graph.addVertex();
         // graph.addUndirectedEdge(7,7,1);
@@ -317,24 +314,69 @@ public class client{
         // System.out.println(graph);
         // graph.adjacencyMatrix();
 
+        // Graph graph=new Graph(10);
+        // graph.addUndirectedEdge(0,1,10);
+        // graph.addUndirectedEdge(0,8,10);
+        // graph.addUndirectedEdge(0,7,10);
+        // graph.addUndirectedEdge(8,7,10);
+        // graph.addUndirectedEdge(8,9,10);
+
+        // graph.addUndirectedEdge(2,3,10);
+        // graph.addUndirectedEdge(4,5,10);
+        // graph.addUndirectedEdge(4,6,10);
+        // graph.addUndirectedEdge(5,6,10);
+
         boolean[]visited=new boolean[graph.numberOfVertices];
         for(int i=0;i<visited.length;i++){
             visited[i]=false;
         }
+
         // graph.preOrderPrintPathTraversal(0,visited,"",0);
         // graph.postOrderPrintPathTraversal(0,visited,"0",0);
         // System.out.println(graph.hasPath(0,6,visited));
         // System.out.println(graph.printAllPaths(0,6,visited,""));
         // System.out.println(graph.heaviestEdgeWeight(0,6,visited));
         // System.out.println(graph.lightestEdgeWeight(0,6,visited));
-        Graph.CeilFloorPair ceilFloorPair=graph.ceilFloor(0,visited,45);
-        System.out.println(ceilFloorPair.ceil);
-        System.out.println(ceilFloorPair.floor);
+        // Graph.CeilFloorPair ceilFloorPair=graph.ceilFloor(0,visited,45);
+        // System.out.println(ceilFloorPair.ceil);
+        // System.out.println(ceilFloorPair.floor);
         // Graph.PathWeightPair pathWeightPair=graph.heaviestPath(0,6,visited);
         // Graph.PathWeightPair pathWeightPair=graph.lightestPath(0,6,visited);
 
         // System.out.println(pathWeightPair.weightSoFar);
         // System.out.println(pathWeightPair.pathSoFar);
+
+        // System.out.println(graph.connectedComponents(visited));
+
+        // graph.nonRepeatedVertexPathsAndCycles(0,visited,"",0,0);
+
+        // graph.breadthFirstTraversalMarkAddWithOutClass(0);
+        // graph.breadthFirstTraversalMarkRemoveWithClass(0);
+        // graph.breadthFirstTraversalMarkRemoveWithOutClass(0);
+
+        // System.out.println(graph.verticesUptoGivenEdgeDistanceFromSource(6,2));
+
+        // System.out.println(graph.numberOfNonOverlappingCycles());
+
+        // System.out.println(graph.containsOddLengthCycles());
+
+        // Graph.CeilFloorNonNegativePathClass ceilFloorNonNegativePathObject= graph.ceilFloorNonNegativePaths(0,visited,30);
+        // System.out.println(ceilFloorNonNegativePathObject.ceilWeightSoFar);
+        // System.out.println(ceilFloorNonNegativePathObject.ceilNonNegativePathSoFar);
+
+        // System.out.println(ceilFloorNonNegativePathObject.floorWeightSoFar);
+        // System.out.println(ceilFloorNonNegativePathObject.floorNonNegativePathSoFar);
+
+        // PriorityQueue<Graph.PathWeightPair>priorityQ=new PriorityQueue<>((a,b)->{
+        //         return a.weightSoFar-b.weightSoFar;
+        //     }
+        // );
+        
+        // graph.kthLargestPath(0,6,3,visited,priorityQ);
+        // System.out.println(priorityQ.peek().weightSoFar);
+        // System.out.println(priorityQ.peek().pathSoFar);
+
+
 
 
 

@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+import java.util.*;
 public class Graph{
     public int numberOfVertices;
     public class Edge{
@@ -18,6 +18,49 @@ public class Graph{
             this.ceil=ceil;
             this.floor=floor;
         }
+    }
+    public class CeilFloorNonNegativePathClass{
+        int ceilWeightSoFar;
+        int floorWeightSoFar;
+        String ceilNonNegativePathSoFar;
+        String floorNonNegativePathSoFar;
+        CeilFloorNonNegativePathClass(int ceilWeightSoFar,int floorWeightSoFar,String ceilNonNegativePathSoFar, String floorNonNegativePathSoFar ){
+            this.ceilWeightSoFar=ceilWeightSoFar;
+            this.floorWeightSoFar=floorWeightSoFar;
+            this.ceilNonNegativePathSoFar=ceilNonNegativePathSoFar;
+            this.floorNonNegativePathSoFar=floorNonNegativePathSoFar;
+        }
+    }
+    public CeilFloorNonNegativePathClass ceilFloorNonNegativePaths(int source,boolean[]visited,int data){
+        visited[source]=true;
+        CeilFloorNonNegativePathClass ceilFloorNonNegativePathObject=new CeilFloorNonNegativePathClass((int)1e9,0,"","");
+        int edgeCallCount=0;
+        boolean ceilChanged=false;
+        boolean floorChanged=false;
+        for(Edge edge: this.adjacencyList.get(source)){
+            if(!visited[edge.neighbour]){
+                edgeCallCount++;
+                CeilFloorNonNegativePathClass edgeCeilFloorNonNegativePathObject=ceilFloorNonNegativePaths(edge.neighbour,visited,data-edge.weight);
+                if(edgeCeilFloorNonNegativePathObject.ceilWeightSoFar+edge.weight>data && edgeCeilFloorNonNegativePathObject.ceilWeightSoFar+edge.weight<ceilFloorNonNegativePathObject.ceilWeightSoFar){
+                    ceilFloorNonNegativePathObject.ceilWeightSoFar=edgeCeilFloorNonNegativePathObject.ceilWeightSoFar+edge.weight;
+                    ceilFloorNonNegativePathObject.ceilNonNegativePathSoFar=edgeCeilFloorNonNegativePathObject.ceilNonNegativePathSoFar;
+                    if(!ceilChanged)ceilChanged=true;
+                }
+                if(edgeCeilFloorNonNegativePathObject.floorWeightSoFar+edge.weight<data && edgeCeilFloorNonNegativePathObject.floorWeightSoFar+edge.weight>ceilFloorNonNegativePathObject.floorWeightSoFar){
+                    ceilFloorNonNegativePathObject.floorWeightSoFar=edgeCeilFloorNonNegativePathObject.floorWeightSoFar+edge.weight;
+                    ceilFloorNonNegativePathObject.floorNonNegativePathSoFar=edgeCeilFloorNonNegativePathObject.floorNonNegativePathSoFar;
+                    if(!floorChanged)floorChanged=true;
+                }
+            }
+        }
+        visited[source]=false;
+        if(edgeCallCount==0){
+            ceilFloorNonNegativePathObject.ceilWeightSoFar=0;
+            ceilFloorNonNegativePathObject.floorWeightSoFar=0;
+        }
+        ceilFloorNonNegativePathObject.ceilNonNegativePathSoFar=source+ceilFloorNonNegativePathObject.ceilNonNegativePathSoFar;
+        ceilFloorNonNegativePathObject.floorNonNegativePathSoFar=source+ceilFloorNonNegativePathObject.floorNonNegativePathSoFar;
+        return ceilFloorNonNegativePathObject;
     }
     public class PathWeightPair{
         String pathSoFar;
@@ -141,7 +184,7 @@ public class Graph{
                 preOrderPrintPathTraversal(edge.neighbour,visited,path+source,weightSoFar+edge.weight);
             }
         }
-        visited[source]=false;
+        visited[source]=false;//comment this if each vertex need to be visited just once and only one path is needed
     }
     public void postOrderPrintPathTraversal(int source,boolean[]visited,String path,int weightSoFar){
         visited[source]=true;
@@ -151,7 +194,7 @@ public class Graph{
                 postOrderPrintPathTraversal(edge.neighbour,visited,path+edge.neighbour,weightSoFar+edge.weight);
             }
         }
-        visited[source]=false;
+        visited[source]=false;//comment this if each vertex need to be visited just once and only one path is needed
         System.out.println(source+"->"+path+"@"+weightSoFar);
     }
     public boolean hasPath(int source, int destination,boolean[] visited){
@@ -283,9 +326,251 @@ public class Graph{
         visited[source]=false;
         return ceilFloorPair;
     }
+    
+    public void kthLargestPath(int source,int destination,int k, boolean[] visited,PathWeightPair pathWeightPair, PriorityQueue<PathWeightPair>priorityQ){
+        if(source==destination){
+            if(priorityQ.size()<k){
+                priorityQ.add(pathWeightPair);
+            }
+            else if(priorityQ.peek().weightSoFar<pathWeightPair.weightSoFar){
+                priorityQ.remove();
+                priorityQ.add(pathWeightPair);
+            }
+        }
+        visited[source]=true;
+        for(int i=0;i<this.adjacencyList.get(source).size();i++){
+            Edge edge=this.adjacencyList.get(source).get(i);
+            if(!visited[edge.neighbour]){
+                PathWeightPair edgePathWeightPair=new PathWeightPair(pathWeightPair.pathSoFar+edge.neighbour,pathWeightPair.weightSoFar+edge.weight);
+                kthLargestPath(edge.neighbour,destination,k,visited,edgePathWeightPair,priorityQ);
+            }
+        }
+        visited[source]=false;
+    }
+    public void kthLargestPath(int source,int destination,int k,boolean[]visited,PriorityQueue<PathWeightPair>priorityQ){
+        PathWeightPair pathWeightPair=new PathWeightPair(""+source,0);
+        kthLargestPath(source,destination,k,visited,pathWeightPair,priorityQ);
+    }
+
+    
+
+    private void addConnectedVertices(int source,boolean[]visited,ArrayList<Integer>connectedComponent){
+        visited[source]=true;
+        connectedComponent.add(source);
+        for(int i=0;i<this.adjacencyList.get(source).size();i++){
+            Edge edge=this.adjacencyList.get(source).get(i);
+            if(!visited[edge.neighbour]){
+                addConnectedVertices(edge.neighbour,visited,connectedComponent);
+            }
+        }
+    }
+
+    public ArrayList<ArrayList<Integer>> connectedComponents(boolean[]visited){
+        ArrayList<ArrayList<Integer>>connectedComponents=new ArrayList<>();
+        for(int i=0;i<visited.length;i++){
+            if(!visited[i]){
+                ArrayList<Integer>connectedComponent=new ArrayList<>();
+                this.addConnectedVertices(i,visited,connectedComponent);
+                connectedComponents.add(connectedComponent);
+            }
+        }
+        return connectedComponents;
+    }
+
+    public void nonRepeatedVertexPathsAndCycles(int source,boolean[]visited,String pathSoFar,int verticesSoFar,int originalSource){//hamiltonian
+        visited[source]=true;
+        verticesSoFar++;
+        int recursiveCallsCount=0;
+        for(int i=0;i<this.adjacencyList.get(source).size();i++){
+            Edge edge=this.adjacencyList.get(source).get(i);
+            if(!visited[edge.neighbour]){
+                recursiveCallsCount++;
+                nonRepeatedVertexPathsAndCycles(edge.neighbour,visited,pathSoFar+source,verticesSoFar,originalSource);
+            }
+        }
+        visited[source]=false;
+        if(recursiveCallsCount==0 && verticesSoFar==visited.length){
+            boolean cycle=false;
+            for(Edge edge:this.adjacencyList.get(source)){
+                if(edge.neighbour==originalSource){
+                    cycle=true;
+                }
+            }
+            if(cycle){
+                System.out.println("hamiltonian cycle: "+pathSoFar+source);
+            }
+            else{
+                System.out.println("hamiltonian path: "+pathSoFar+source);
+            }
+        }
+    }
+
+    private class BreadthFirstClass{
+        int vertex;
+        int edgesSoFar;
+        int weightSoFar;
+        String pathSoFar;
+        BreadthFirstClass(int vertex,int edgesSoFar,int weightSoFar,String pathSoFar){
+            this.vertex=vertex;
+            this.edgesSoFar=edgesSoFar;
+            this.weightSoFar=weightSoFar;
+            this.pathSoFar=pathSoFar;
+        }
+    }
+
+    public void breadthFirstTraversalMarkRemoveWithOutClass(int source){
+        boolean[]visited=new boolean[this.numberOfVertices];
+        Queue<Integer> q=new ArrayDeque<>();
+        q.add(source);
+        int edgesSoFar=0;
+        while(q.size()>0){
+            int qSize=q.size();
+            while(qSize-->0){
+                int removed=q.remove();
+                if(!visited[removed]){
+                    visited[removed]=true;
+                    System.out.println("vertex: "+removed+" edgesSoFar: "+edgesSoFar);
+                    for(Edge edge:this.adjacencyList.get(removed)){
+                        if(!visited[edge.neighbour]){
+                            q.add(edge.neighbour);
+                        }
+                    }
+                }
+            }
+            edgesSoFar++;
+        }
+    }
+
+    public boolean containsOddLengthCycles(){//isNotBipartite
+        int[]edgesFromSourceMod2=new int[this.numberOfVertices];
+        for(int i=0;i<edgesFromSourceMod2.length;i++){
+            edgesFromSourceMod2[i]=-1;
+        }
+        boolean containsOddLengthCycles=false;
+        for(int i=0;i<this.numberOfVertices;i++){
+            int source=i;
+            if(edgesFromSourceMod2[source]==-1){
+                Queue<BreadthFirstClass> q=new ArrayDeque<>();
+                BreadthFirstClass sourceBreadthFirstClass=new BreadthFirstClass(source,0,0,""+source);
+                q.add(sourceBreadthFirstClass);
+                while(q.size()>0){
+                    BreadthFirstClass removedBreadthFirstClass=q.remove();
+                    if(edgesFromSourceMod2[removedBreadthFirstClass.vertex]==-1){
+                        edgesFromSourceMod2[removedBreadthFirstClass.vertex]=removedBreadthFirstClass.edgesSoFar%2;
+                        for(Edge edge:this.adjacencyList.get(removedBreadthFirstClass.vertex)){
+                            if(edgesFromSourceMod2[edge.neighbour]==-1){
+                                BreadthFirstClass breadthFirstClass=new BreadthFirstClass(edge.neighbour,removedBreadthFirstClass.edgesSoFar+1,removedBreadthFirstClass.weightSoFar+edge.weight,removedBreadthFirstClass.pathSoFar+edge.neighbour);
+                                q.add(breadthFirstClass);
+                            }
+                        }
+                    }
+                    else if(edgesFromSourceMod2[removedBreadthFirstClass.vertex]!=removedBreadthFirstClass.edgesSoFar%2){
+                        return true;
+                    } 
+                }
+            }
+        }
+        return false;
+    }
+
+    public int numberOfNonOverlappingCycles(){//isCyclic
+        boolean[]visited=new boolean[this.numberOfVertices];
+        int numberOfNonOverlappingCycles=0;
+        for(int i=0;i<this.numberOfVertices;i++){
+            int source=i;
+            if(!visited[source]){
+                Queue<BreadthFirstClass> q=new ArrayDeque<>();
+                BreadthFirstClass sourceBreadthFirstClass=new BreadthFirstClass(source,0,0,""+source);
+                q.add(sourceBreadthFirstClass);
+                while(q.size()>0){
+                    BreadthFirstClass removedBreadthFirstClass=q.remove();
+                    if(!visited[removedBreadthFirstClass.vertex]){
+                        visited[removedBreadthFirstClass.vertex]=true;
+                        for(Edge edge:this.adjacencyList.get(removedBreadthFirstClass.vertex)){
+                            if(!visited[edge.neighbour]){
+                                BreadthFirstClass breadthFirstClass=new BreadthFirstClass(edge.neighbour,removedBreadthFirstClass.edgesSoFar+1,removedBreadthFirstClass.weightSoFar+edge.weight,removedBreadthFirstClass.pathSoFar+edge.neighbour);
+                                q.add(breadthFirstClass);
+                            }
+                        }
+                    }
+                    else{
+                        numberOfNonOverlappingCycles++;
+                        // return true;
+                    } 
+                }
+            }
+        }
+        return numberOfNonOverlappingCycles;
+        // return false;
+    }
+
+    public void breadthFirstTraversalMarkRemoveWithClass(int source){
+        boolean[]visited=new boolean[this.numberOfVertices];
+        Queue<BreadthFirstClass> q=new ArrayDeque<>();
+        BreadthFirstClass sourceBreadthFirstClass=new BreadthFirstClass(source,0,0,""+source);
+        q.add(sourceBreadthFirstClass);
+        while(q.size()>0){
+            BreadthFirstClass removedBreadthFirstClass=q.remove();
+            if(!visited[removedBreadthFirstClass.vertex]){
+                visited[removedBreadthFirstClass.vertex]=true;
+                System.out.println("vertex: "+removedBreadthFirstClass.vertex+" edgesSoFar: "+removedBreadthFirstClass.edgesSoFar+" weightSoFar: "+removedBreadthFirstClass.weightSoFar+" pathSoFar: "+removedBreadthFirstClass.pathSoFar);
+                for(Edge edge:this.adjacencyList.get(removedBreadthFirstClass.vertex)){
+                    if(!visited[edge.neighbour]){
+                        BreadthFirstClass breadthFirstClass=new BreadthFirstClass(edge.neighbour,removedBreadthFirstClass.edgesSoFar+1,removedBreadthFirstClass.weightSoFar+edge.weight,removedBreadthFirstClass.pathSoFar+edge.neighbour);
+                        q.add(breadthFirstClass);
+                    }
+                }
+            }
+        }
+    }
+
+    public void breadthFirstTraversalMarkAddWithOutClass(int source){
+        boolean[]visited=new boolean[this.numberOfVertices];
+        Queue<Integer> q=new ArrayDeque<>();
+        visited[source]=true;
+        q.add(source);
+        while(q.size()>0){
+            int removed=q.remove();
+            for(Edge edge:this.adjacencyList.get(removed)){
+                if(!visited[edge.neighbour]){
+                    visited[edge.neighbour]=true;
+                    q.add(edge.neighbour);
+                }
+            }
+            System.out.println(removed);
+        }
+    }
+
+    public ArrayList<Integer> verticesUptoGivenEdgeDistanceFromSource(int source,int distance){
+        ArrayList<Integer> verticesUptoGivenEdgeDistanceFromSource=new ArrayList<>();
+        boolean[]visited=new boolean[this.numberOfVertices];
+        Queue<BreadthFirstClass> q=new ArrayDeque<>();
+        BreadthFirstClass sourceBreadthFirstClass=new BreadthFirstClass(source,0,0,""+source);
+        q.add(sourceBreadthFirstClass);
+        while(q.size()>0){
+            BreadthFirstClass removedBreadthFirstClass=q.remove();
+            if(!visited[removedBreadthFirstClass.vertex]){
+                visited[removedBreadthFirstClass.vertex]=true;
+                if(removedBreadthFirstClass.edgesSoFar<=distance){
+                    verticesUptoGivenEdgeDistanceFromSource.add(removedBreadthFirstClass.vertex);
+                }
+                else{
+                    return verticesUptoGivenEdgeDistanceFromSource;
+                }
+                for(Edge edge:this.adjacencyList.get(removedBreadthFirstClass.vertex)){
+                    if(!visited[edge.neighbour]){
+                        BreadthFirstClass breadthFirstClass=new BreadthFirstClass(edge.neighbour,removedBreadthFirstClass.edgesSoFar+1,removedBreadthFirstClass.weightSoFar+edge.weight,removedBreadthFirstClass.pathSoFar+edge.neighbour);
+                        q.add(breadthFirstClass);
+                    }
+                }
+            }
+        }
+        return verticesUptoGivenEdgeDistanceFromSource;
+    }
+
 
     public int kthLargestEdge(int source,boolean[]visited,int k){
-
+        return 0;
     }
     
     @Override

@@ -36,7 +36,7 @@ class fibonacci_dp{
 
 public static void main(String[] args) throws Exception {
     // write your code here
-    int n=10;
+    int n=30;
     long t1=System.nanoTime();
     // System.out.println(fib(n));
     // System.out.println(fibDpTabulationBottomUp(n));
