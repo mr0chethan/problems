@@ -376,6 +376,20 @@ public class client{
         // System.out.println(priorityQ.peek().weightSoFar);
         // System.out.println(priorityQ.peek().pathSoFar);
 
+        // int[]arr={3,7,1,10,4};
+        // HeapSir heapSir =new HeapSir(arr,true);
+        // HeapSir heapSir =new HeapSir(false);
+
+        // heapSir.add(3);
+        // heapSir.add(7);
+        // heapSir.add(1);
+        // heapSir.add(10);
+        // heapSir.add(4);
+
+        // System.out.println(heapSir.peek());
+        // System.out.println(heapSir.remove());
+        // System.out.println(heapSir.remove());
+
 
 
 
