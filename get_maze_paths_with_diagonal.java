@@ -18,12 +18,21 @@ public class get_maze_paths_with_diagonal {
         //     j--;
         // }
 
+        int[][]dir={{0,1},{}}
+
         System.out.println(getMazePaths(1,1,numRows,numCols));
     }
     // sr - source row
     // sc - source column
     // dr - destination row
     // dc - destination column
+
+    public static ArrayList<String>getMazePaths(int sourceRow,int sourceCol,int destRow,int destCol){
+
+    }
+
+
+
     public static ArrayList<String> getMazePaths(int sr, int sc, int dr, int dc) {
         // int row=dr-sr+1;
         // int col=dc-sc+1;

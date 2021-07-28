@@ -390,6 +390,9 @@ public class client{
         // System.out.println(heapSir.remove());
         // System.out.println(heapSir.remove());
 
+        HashMapSir hashMapSir=new HashMapSir();
+        
+
 
 
 
