@@ -193,14 +193,28 @@ public class permutations_combinations{
             return 0;
         }
         int noOfspaceElementCombinations = 0;
-        noOfspaceElementCombinations += spaceElementCombinationsSubsequence( totalNoOfSpaces, spaceIndexToBeUsed + 1, totalNoOfElements, elementIndexToBePlaced + 1, spaceElementCombinationsSoFar + "e" + elementIndexToBePlaced + "-s" +  spaceIndexToBeUsed + ", ");
+        noOfspaceElementCombinations += spaceElementCombinationsSubsequence( totalNoOfSpaces, spaceIndexToBeUsed + 1, totalNoOfElements, elementIndexToBePlaced + 1, spaceElementCombinationsSoFar + "e" + elementIndexToBePlaced + "-s" +  spaceIndexToBeUsed + ", " );
         noOfspaceElementCombinations += spaceElementCombinationsSubsequence( totalNoOfSpaces, spaceIndexToBeUsed + 1, totalNoOfElements, elementIndexToBePlaced, spaceElementCombinationsSoFar);
         return noOfspaceElementCombinations;
     }
 
-    public static int spaceElementPermutationsSubsequence(){
-        return 0;
+    public static int spaceElementPermutationsSubsequence( boolean[] spaceUsed, int spaceIndexToBeUsed, int totalNoOfElements, int elementIndexToBePlaced, String spaceElementPermutationsSoFar ){
+        if( elementIndexToBePlaced == totalNoOfElements ){
+            System.out.println( spaceElementPermutationsSoFar );
+            return 1;
+        }
+        int noOfSpaceElementPermutations = 0;
+        if( !spaceUsed[ spaceIndexToBeUsed ]){
+            spaceUsed[ spaceIndexToBeUsed ] = true;
+            noOfSpaceElementPermutations += spaceElementPermutationsSubsequence( spaceUsed, 0, totalNoOfElements, elementIndexToBePlaced + 1, spaceElementPermutationsSoFar + "e" + elementIndexToBePlaced + "-s" + spaceIndexToBeUsed  + ", " );
+            spaceUsed[ spaceIndexToBeUsed ] = false;
+        }
+        if( spaceIndexToBeUsed + 1 < spaceUsed.length ){
+            noOfSpaceElementPermutations += spaceElementPermutationsSubsequence( spaceUsed, spaceIndexToBeUsed + 1, totalNoOfElements, elementIndexToBePlaced, spaceElementPermutationsSoFar);
+        }
+        return noOfSpaceElementPermutations;
     }
+
 
 
     // public static int queenCombination2D_sub(int tnb, int bno, int tnq, int qpsf, String asf) {
@@ -275,7 +289,8 @@ public class permutations_combinations{
         // System.out.println( spaceElementCombinations( 5, 0, 3, 0, ""));
         // System.out.println( spaceElementPermutations( new boolean[5], 3, 0, ""));
 
-        System.out.println( spaceElementCombinationsSubsequence( 4, 0, 2, 0, ""));
+        // System.out.println( spaceElementCombinationsSubsequence( 4, 0, 2, 0, ""));
+        System.out.println( spaceElementPermutationsSubsequence( new boolean[5], 0, 3, 0, ""));
 
         
     }
