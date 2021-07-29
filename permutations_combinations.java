@@ -215,6 +215,8 @@ public class permutations_combinations{
         return noOfSpaceElementPermutations;
     }
 
+    public static int queenCombinations2D()
+
 
 
     // public static int queenCombination2D_sub(int tnb, int bno, int tnq, int qpsf, String asf) {
@@ -290,7 +292,8 @@ public class permutations_combinations{
         // System.out.println( spaceElementPermutations( new boolean[5], 3, 0, ""));
 
         // System.out.println( spaceElementCombinationsSubsequence( 4, 0, 2, 0, ""));
-        System.out.println( spaceElementPermutationsSubsequence( new boolean[5], 0, 3, 0, ""));
+        // System.out.println( spaceElementPermutationsSubsequence( new boolean[5], 0, 3, 0, ""));
+
 
         
     }
