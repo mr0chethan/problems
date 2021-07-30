@@ -215,45 +215,144 @@ public class permutations_combinations{
         return noOfSpaceElementPermutations;
     }
 
-    public static int queenCombinations2D()
+    public static int spaceElementCombinations2D( int numRows, int numCols, int spaceIndexNextAvailable, int totalNoOfElements, int elementIndexToBePlaced, String spaceElementCombinationsSoFar){
+        if( elementIndexToBePlaced == totalNoOfElements){
+            System.out.println(spaceElementCombinationsSoFar + ".");
+            return 1;
+        }
+        int noOfspaceElementCombinations=0;
+        for( int spaceIndex = spaceIndexNextAvailable; spaceIndex < numRows * numCols; spaceIndex++ ){
+            int row = spaceIndex / numCols;
+            int col = spaceIndex % numCols;
+            noOfspaceElementCombinations += spaceElementCombinations2D( numRows, numCols, spaceIndex + 1, totalNoOfElements, elementIndexToBePlaced + 1, spaceElementCombinationsSoFar + "(" + row + ", " + col + ")->" + elementIndexToBePlaced + ", ");
+        }
+        return noOfspaceElementCombinations;
+    }
+
+    public static int spaceElementPermutations2D (boolean[][] spaceUsed, int totalNoOfElements, int elementIndexToBePlaced, String spaceElementPermutationsSoFar){
+        if( elementIndexToBePlaced == totalNoOfElements){
+            System.out.println( spaceElementPermutationsSoFar );
+            return 1;
+        }
+        int noOfSpaceElementPermutations=0;
+        for( int spaceIndex = 0; spaceIndex < spaceUsed.length * spaceUsed[0].length; spaceIndex++){
+            int row = spaceIndex / spaceUsed[0].length;
+            int col = spaceIndex % spaceUsed[0].length;
+            if( !spaceUsed [row] [col] ){
+                spaceUsed [row] [col] = true;
+                noOfSpaceElementPermutations += spaceElementPermutations2D( spaceUsed, totalNoOfElements, elementIndexToBePlaced + 1, spaceElementPermutationsSoFar + "(" + row + ", " + col + ")->" + elementIndexToBePlaced + ", ");
+                spaceUsed [row] [col] =false;
+            }
+        }
+        return noOfSpaceElementPermutations;
+    }
 
 
+    public static int spaceElementCombinationsSubsequence2D (int numRows, int numCols, int spaceIndexToBeUsed, int totalNoOfElements, int elementIndexToBePlaced, String spaceElementCombinationsSoFar){
+        if( elementIndexToBePlaced == totalNoOfElements ){
+            System.out.println( spaceElementCombinationsSoFar + ".");
+            return 1;
+        }
+        if( spaceIndexToBeUsed == numRows * numCols ){
+            return 0;
+        }
+        int noOfspaceElementCombinations = 0;
+        int row = spaceIndexToBeUsed / numCols;
+        int col = spaceIndexToBeUsed % numCols;
+        noOfspaceElementCombinations += spaceElementCombinationsSubsequence2D( numRows, numCols, spaceIndexToBeUsed + 1, totalNoOfElements, elementIndexToBePlaced + 1, spaceElementCombinationsSoFar + "(" + row + ", " + col + ")->" + elementIndexToBePlaced + ", ");
+        noOfspaceElementCombinations += spaceElementCombinationsSubsequence2D( numRows, numCols, spaceIndexToBeUsed + 1, totalNoOfElements, elementIndexToBePlaced, spaceElementCombinationsSoFar);
+        return noOfspaceElementCombinations;
+    }
 
-    // public static int queenCombination2D_sub(int tnb, int bno, int tnq, int qpsf, String asf) {
-    //     if (qpsf > tnq || bno > tnb) {
-    //         if (qpsf > tnq) {
-    //             System.out.println(asf);
-    //             return 1;
-    //         }
-    //         return 0;
-    //     }
+    public static int spaceElementPermutationsSubsequence2D ( boolean[][] spaceUsed, int spaceIndexToBeUsed, int totalNoOfElements, int elementIndexToBePlaced, String spaceElementPermutationsSoFar ){
+        if( elementIndexToBePlaced == totalNoOfElements ){
+            System.out.println( spaceElementPermutationsSoFar );
+            return 1;
+        }
+        int noOfSpaceElementPermutations = 0;
+        int row = spaceIndexToBeUsed / spaceUsed[0].length;
+        int col = spaceIndexToBeUsed % spaceUsed[0].length;
+        if( !spaceUsed[ row ][ col ]){
+            spaceUsed[ row ] [ col ] = true;
+            noOfSpaceElementPermutations += spaceElementPermutationsSubsequence2D( spaceUsed, 0, totalNoOfElements, elementIndexToBePlaced + 1, spaceElementPermutationsSoFar + "(" + row + ", " + col + ")->" + elementIndexToBePlaced + ", " );
+            spaceUsed[ row ] [ col ]= false;
+        }
+        if( spaceIndexToBeUsed + 1 < spaceUsed.length * spaceUsed[0].length ){
+            noOfSpaceElementPermutations += spaceElementPermutationsSubsequence2D( spaceUsed, spaceIndexToBeUsed + 1, totalNoOfElements, elementIndexToBePlaced, spaceElementPermutationsSoFar);
+        }
+        return noOfSpaceElementPermutations;
+    }
 
-    //     int count = 0;
-    //     count += queenCombination1D_sub(tnb, bno + 1, tnq, qpsf + 1, asf + "b" + bno + "q" + qpsf + " ");
-    //     count += queenCombination1D_sub(tnb, bno + 1, tnq, qpsf, asf);
+    public static int spaceElementCombinations3D( int numRows, int numCols, int maxHeight, int spaceIndexNextAvailable, int totalNoOfElements, int elementIndexToBePlaced, String spaceElementCombinationsSoFar){
+        if( elementIndexToBePlaced == totalNoOfElements){
+            System.out.println(spaceElementCombinationsSoFar + ".");
+            return 1;
+        }
+        int noOfspaceElementCombinations=0;
+        for( int spaceIndex = spaceIndexNextAvailable; spaceIndex < numRows * numCols * maxHeight; spaceIndex++ ){
+            int height = spaceIndex / ( numRows * numCols );
+            int row = ( spaceIndex - height * numRows * numCols ) / numCols;
+            int col = spaceIndex % numCols;
+            noOfspaceElementCombinations += spaceElementCombinations3D( numRows, numCols, maxHeight, spaceIndex + 1, totalNoOfElements, elementIndexToBePlaced + 1, spaceElementCombinationsSoFar + "(" + height + ", " + row + ", " + col + ")->" + elementIndexToBePlaced + ", ");
+        }
+        return noOfspaceElementCombinations;
+    }
 
-    //     return count;
-    // }
+    public static int spaceElementPermutations3D(boolean[][][] spaceUsed, int totalNoOfElements, int elementIndexToBePlaced, String spaceElementPermutationsSoFar){
+        if( elementIndexToBePlaced == totalNoOfElements){
+            System.out.println( spaceElementPermutationsSoFar );
+            return 1;
+        }
+        int noOfSpaceElementPermutations=0;
+        for( int spaceIndex = 0; spaceIndex < spaceUsed.length * spaceUsed[0].length * spaceUsed[0][0].length; spaceIndex++){
+            int height = spaceIndex / ( spaceUsed[0].length * spaceUsed[0][0].length );
+            int row = ( spaceIndex - height * spaceUsed[0].length * spaceUsed[0][0].length ) / spaceUsed[0][0].length;
+            int col = spaceIndex % spaceUsed[0][0].length;
+            if( !spaceUsed [height] [row] [col] ){
+                spaceUsed [height] [row] [col] = true;
+                noOfSpaceElementPermutations += spaceElementPermutations3D( spaceUsed, totalNoOfElements, elementIndexToBePlaced + 1, spaceElementPermutationsSoFar + "(" + height + ", " + row + ", " + col + ")->" + elementIndexToBePlaced + ", ");
+                spaceUsed [height] [row] [col] =false;
+            }
+        }
+        return noOfSpaceElementPermutations;
+    }
 
-    // public static int queenPermutation2D_sub(int tnb, int bno, int tnq, int qpsf, boolean[] vis, String asf) {
-    //     if (qpsf > tnq || bno > tnb) {
-    //         if (qpsf > tnq) {
-    //             System.out.println(asf);
-    //             return 1;
-    //         }
-    //         return 0;
-    //     }
+    public static int spaceElementCombinationsSubsequence3D (int numRows, int numCols, int maxHeight, int spaceIndexToBeUsed, int totalNoOfElements, int elementIndexToBePlaced, String spaceElementCombinationsSoFar){
+        if( elementIndexToBePlaced == totalNoOfElements ){
+            System.out.println( spaceElementCombinationsSoFar + ".");
+            return 1;
+        }
+        if( spaceIndexToBeUsed == numRows * numCols * maxHeight ){
+            return 0;
+        }
+        int noOfspaceElementCombinations = 0;
+        int height = spaceIndexToBeUsed / ( numRows * numCols );
+        int row = ( spaceIndexToBeUsed - height * numRows * numCols ) / numCols;
+        int col = spaceIndexToBeUsed % numCols;
+        noOfspaceElementCombinations += spaceElementCombinationsSubsequence3D( numRows, numCols, maxHeight, spaceIndexToBeUsed + 1, totalNoOfElements, elementIndexToBePlaced + 1, spaceElementCombinationsSoFar + "(" + height + ", " + row + ", " + col + ")->" + elementIndexToBePlaced + ", ");
+        noOfspaceElementCombinations += spaceElementCombinationsSubsequence3D( numRows, numCols, maxHeight, spaceIndexToBeUsed + 1, totalNoOfElements, elementIndexToBePlaced, spaceElementCombinationsSoFar);
+        return noOfspaceElementCombinations;
+    }
 
-    //     int count = 0;
-
-    //     if (!vis[bno]) {
-    //         vis[bno] = true;
-    //         count += queenPermutation1D_sub(tnb, 1, tnq, qpsf + 1, vis, asf + "b" + bno + "q" + qpsf + " ");
-    //         vis[bno] = false;
-    //     }
-    //     count += queenPermutation1D_sub(tnb, bno + 1, tnq, qpsf, vis, asf);
-    //     return count;
-    // }
+    public static int spaceElementPermutationsSubsequence3D ( boolean[][][] spaceUsed, int spaceIndexToBeUsed, int totalNoOfElements, int elementIndexToBePlaced, String spaceElementPermutationsSoFar ){
+        if( elementIndexToBePlaced == totalNoOfElements ){
+            System.out.println( spaceElementPermutationsSoFar );
+            return 1;
+        }
+        int noOfSpaceElementPermutations = 0;
+        int height = spaceIndexToBeUsed / ( spaceUsed[0].length * spaceUsed[0][0].length );
+        int row = ( spaceIndexToBeUsed - height * spaceUsed[0].length * spaceUsed[0][0].length ) / spaceUsed[0][0].length;
+        int col = spaceIndexToBeUsed % spaceUsed[0][0].length;
+        if( !spaceUsed [ height ][ row ][ col ]){
+            spaceUsed [ height ][ row ][ col ] = true;
+            noOfSpaceElementPermutations += spaceElementPermutationsSubsequence3D( spaceUsed, 0, totalNoOfElements, elementIndexToBePlaced + 1, spaceElementPermutationsSoFar + "(" + height + ", " + row + ", " + col + ")->" + elementIndexToBePlaced + ", " );
+            spaceUsed [ height ][ row ][ col ]= false;
+        }
+        if( spaceIndexToBeUsed + 1 < spaceUsed.length * spaceUsed[0].length * spaceUsed[0][0].length ){
+            noOfSpaceElementPermutations += spaceElementPermutationsSubsequence3D( spaceUsed, spaceIndexToBeUsed + 1, totalNoOfElements, elementIndexToBePlaced, spaceElementPermutationsSoFar);
+        }
+        return noOfSpaceElementPermutations;
+    }
 
 
 
@@ -288,11 +387,29 @@ public class permutations_combinations{
 
         // singleSupplyTargetSumPermutationsSubsequence( arr, 10, 0, "", new boolean[ arr.length ]);
 
-        // System.out.println( spaceElementCombinations( 5, 0, 3, 0, ""));
-        // System.out.println( spaceElementPermutations( new boolean[5], 3, 0, ""));
+        // System.out.println( spaceElementCombinations( 4, 0, 2, 0, ""));
+        // System.out.println( spaceElementPermutations( new boolean[4], 2, 0, ""));
 
         // System.out.println( spaceElementCombinationsSubsequence( 4, 0, 2, 0, ""));
         // System.out.println( spaceElementPermutationsSubsequence( new boolean[5], 0, 3, 0, ""));
+
+
+
+        // System.out.println( spaceElementCombinations2D( 2, 3, 0, 2, 0, "" ) );
+        // System.out.println( spaceElementPermutations2D( new boolean[3][2], 2, 0, "") );
+
+        // System.out.println( spaceElementCombinationsSubsequence2D( 2, 3, 0, 2, 0, "") );
+        // System.out.println( spaceElementPermutationsSubsequence2D( new boolean[3][2], 0, 2, 0, "") ); 
+
+
+        // System.out.println( spaceElementCombinations3D( 4, 3, 2, 0, 6, 0, "") );
+        // System.out.println( spaceElementPermutations3D( new boolean[2][3][4], 6, 0, "") );
+
+        // System.out.println( spaceElementCombinationsSubsequence3D( 2, 2, 3, 0, 2, 0, "") );
+        // System.out.println( spaceElementPermutationsSubsequence3D( new boolean[3][2][2], 0, 2, 0, "") ); 
+
+
+
 
 
         
