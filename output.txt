@@ -1,1 +1,9 @@
-126
+i: 0rem: -1remFreq[rem]: 1
+i: 1rem: 1remFreq[rem]: 2
+i: 2rem: -2remFreq[rem]: 1
+i: 3rem: 2remFreq[rem]: 2
+i: 4rem: 0remFreq[rem]: 1
+i: 5rem: 0remFreq[rem]: 2
+i: 6rem: -1remFreq[rem]: 3
+i: 7rem: 1remFreq[rem]: 4
+false

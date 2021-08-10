@@ -1,4 +1,4 @@
-public class ArrayList{
+public class ArrayListMy{
     private int[]arr;
     private int size;
     private int maxSize;
