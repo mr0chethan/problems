@@ -7,6 +7,7 @@ public class interviewbit_subsets{
         ArrayList<ArrayList<Integer>> recAns = subsets (arr, index+1);
         for(ArrayList<Integer>subset: recAns){
             
+            
         }
     }
 

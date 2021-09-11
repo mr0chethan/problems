@@ -292,16 +292,16 @@ public class client{
         // System.out.println(hashMap.containsKey("India"));
         // System.out.println(hashMap.containsKey("America"));
 
-        Graph graph=new Graph(7);
-        graph.addUndirectedEdge(0,1,10);
-        graph.addUndirectedEdge(0,3,40);
-        graph.addUndirectedEdge(1,2,10);
-        graph.addUndirectedEdge(2,3,10);
-        graph.addUndirectedEdge(2,5,5);
-        graph.addUndirectedEdge(3,4,2);
-        graph.addUndirectedEdge(4,5,3);
-        graph.addUndirectedEdge(4,6,8);
-        graph.addUndirectedEdge(5,6,3);
+        // Graph graph=new Graph(7);
+        // graph.addUndirectedEdge(0,1,10);
+        // graph.addUndirectedEdge(0,3,40);
+        // graph.addUndirectedEdge(1,2,10);
+        // graph.addUndirectedEdge(2,3,10);
+        // graph.addUndirectedEdge(2,5,5);
+        // graph.addUndirectedEdge(3,4,2);
+        // graph.addUndirectedEdge(4,5,3);
+        // graph.addUndirectedEdge(4,6,8);
+        // graph.addUndirectedEdge(5,6,3);
         
         // graph.addDirectedEdge(5,7,50);
         // graph.addDirectedEdge(4,3,1);
@@ -326,10 +326,10 @@ public class client{
         // graph.addUndirectedEdge(4,6,10);
         // graph.addUndirectedEdge(5,6,10);
 
-        boolean[]visited=new boolean[graph.numberOfVertices];
-        for(int i=0;i<visited.length;i++){
-            visited[i]=false;
-        }
+        // boolean[]visited=new boolean[graph.numberOfVertices];
+        // for(int i=0;i<visited.length;i++){
+        //     visited[i]=false;
+        // }
 
         // graph.preOrderPrintPathTraversal(0,visited,"",0);
         // graph.postOrderPrintPathTraversal(0,visited,"0",0);
@@ -390,7 +390,32 @@ public class client{
         // System.out.println(heapSir.remove());
         // System.out.println(heapSir.remove());
 
-        HashMapSir hashMapSir=new HashMapSir();
+        // HashMapSir hashMapSir=new HashMapSir();
+
+        LRUCache lruCache = new LRUCache(4);
+        lruCache.put(0,1);
+        lruCache.put(1,2);
+        lruCache.put(2,3);
+        lruCache.put(3,4);
+        // System.out.println(lruCache.get(1));
+        lruCache.put(4,5);
+        lruCache.put(2,20);
+        lruCache.put(3,4);
+        // System.out.println(lruCache);
+
+        // DoublyLinkedList list = new DoublyLinkedList();
+        // DoublyLinkedList.Node node = list.new Node(0,null,null);
+        // list.addAfterTailNode(node);
+        // list.addAfterTailNode(list.new Node(1,null,null));
+        // node = list.new Node(2,null,null);
+        // list.addAfterTailNode(node);
+        // list.addAfterTailNode(list.new Node(3,null,null));
+        // System.out.println(list.removeHeadNode().val);
+        // System.out.println(list.removeTailNode().val);
+        // System.out.println(list.removeNode(node).val);
+        // System.out.println(list);
+        
+
         
 
 

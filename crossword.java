@@ -16,7 +16,6 @@ public class crossword {
       }
       System.out.println();
     }
-
   }
   public static void main(String[] args) {
     Scanner scn = new Scanner(System.in);
